@@ -1,0 +1,123 @@
+package inl2;
+
+import java.awt.Color;
+import se.lth.cs.ptdc.fractal.MandelbrotGUI;
+
+public class MandelCircleCalc {
+	MandelbrotGUI gui;
+	int height;
+	int width;
+
+	public MandelCircleCalc(MandelbrotGUI gui) {
+		this.gui = gui;
+		this.height = gui.getHeight();
+		this.width = gui.getWidth();
+	}
+
+	public Complex[][] mesh() {
+		Complex[][] mesh = new Complex[height][width];
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+
+				mesh[i][j] = new Complex(
+
+				(j * gui.getMaximumReal() - gui.getMinimumReal()
+						* (j + 1 - gui.getWidth()))
+						/ (gui.getWidth() - 1),
+						-(i * gui.getMaximumImag() - gui.getMinimumImag()
+								* (i + 1 - gui.getHeight()))
+								/ (gui.getHeight() - 1));
+			}
+		}
+		return mesh;
+	}
+
+	public void CircleCalc() {
+		gui.disableInput();
+		// int height = gui.getHeight();
+		// int width = gui.getWidth();
+		int pixelsize = 1;
+
+		switch (gui.getResolution()) {
+		case MandelbrotGUI.RESOLUTION_VERY_HIGH:
+			pixelsize = 1;
+			break;
+		case MandelbrotGUI.RESOLUTION_HIGH:
+			pixelsize = 3;
+			break;
+		case MandelbrotGUI.RESOLUTION_MEDIUM:
+			pixelsize = 5;
+			break;
+		case MandelbrotGUI.RESOLUTION_LOW:
+			pixelsize = 7;
+			break;
+		case MandelbrotGUI.RESOLUTION_VERY_LOW:
+			pixelsize = 9;
+			break;
+		}
+
+		Complex[][] ComplexMatrix = mesh();
+
+		int colorheight = (height / pixelsize) - 1;
+		int colorwidth = (width / pixelsize) - 1;
+		Color[][] ColorMatrix = new Color[colorheight][colorwidth];
+
+		System.out.println(colorheight);
+		System.out.println(colorwidth);
+
+		for (int i = 0; i < colorheight; i++) {
+			// System.out.println(i);
+			for (int j = 0; j < colorwidth; j++) {
+				int icomplex = i * pixelsize + (pixelsize) / 2;
+				int jcomplex = j * pixelsize + (pixelsize) / 2;
+				if (ComplexMatrix[icomplex][jcomplex].getRe() > 0
+						&& ComplexMatrix[icomplex][jcomplex].getRe() < (Math
+								.sqrt(0.25 - ((ComplexMatrix[icomplex][jcomplex]
+										.getIm()) * (ComplexMatrix[icomplex][jcomplex]
+										.getIm()))))
+						&& ComplexMatrix[icomplex][jcomplex].getIm() > 0
+				// && ComplexMatrix[i][j].getIm() < 0.5
+				) {
+					ColorMatrix[i][j] = new Color(255, 0, 0);
+
+				} else if (ComplexMatrix[icomplex][jcomplex].getRe() > 0
+						&& ComplexMatrix[icomplex][jcomplex].getRe() < (Math
+								.sqrt(0.25 - ((ComplexMatrix[icomplex][jcomplex]
+										.getIm()) * (ComplexMatrix[icomplex][jcomplex]
+										.getIm()))))
+						&& ComplexMatrix[icomplex][jcomplex].getIm() < 0
+
+				// && ComplexMatrix[i][j].getIm() > -0.5
+				) {
+					ColorMatrix[i][j] = new Color(0, 255, 0);
+				} else if (ComplexMatrix[icomplex][jcomplex].getRe() < 0
+						&& ComplexMatrix[icomplex][jcomplex].getRe() > -(Math
+								.sqrt(0.25 - ((ComplexMatrix[icomplex][jcomplex]
+										.getIm()) * (ComplexMatrix[icomplex][jcomplex]
+										.getIm()))))
+						&& ComplexMatrix[icomplex][jcomplex].getIm() < 0
+				// && ComplexMatrix[i][j].getIm() > -0.5
+				) {
+					ColorMatrix[i][j] = new Color(0, 0, 255);
+
+				} else if (ComplexMatrix[icomplex][jcomplex].getRe() < 0
+						&& ComplexMatrix[icomplex][jcomplex].getRe() > -(Math
+								.sqrt(0.25 - ((ComplexMatrix[icomplex][jcomplex]
+										.getIm()) * (ComplexMatrix[icomplex][jcomplex]
+										.getIm()))))
+						&& ComplexMatrix[icomplex][jcomplex].getIm() > 0
+				// && ComplexMatrix[i][j].getIm() < 0.5
+				) {
+					ColorMatrix[i][j] = new Color(0, 255, 255);
+				} else {
+					ColorMatrix[i][j] = new Color(255, 255, 255);
+
+				}
+			}
+		}
+
+		gui.putData(ColorMatrix, pixelsize, pixelsize);
+		gui.enableInput();
+	}
+
+}
