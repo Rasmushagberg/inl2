@@ -5,12 +5,12 @@ import se.lth.cs.ptdc.fractal.MandelbrotGUI;
 public class Mandelbrot {
 	public static void main(String[] args) {
 		MandelbrotGUI gui = new MandelbrotGUI();
-		MandelCircleCalc circle = new MandelCircleCalc(gui);
+		MandelbrotCalc calc = new MandelbrotCalc(gui);
 		boolean hasimg = false;
 		while (true) {
 			switch (gui.getCommand()) {
 			case MandelbrotGUI.RENDER:
-				circle.CircleCalc();
+				calc.render(gui);
 				hasimg = true;
 				break;
 			case MandelbrotGUI.RESET:
@@ -22,7 +22,7 @@ public class Mandelbrot {
 				System.exit(0);
 			case MandelbrotGUI.ZOOM:
 				if (hasimg) {
-					circle.CircleCalc();
+					calc.render(gui);
 				} else {
 					gui.resetPlane();
 				}
