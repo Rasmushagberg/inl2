@@ -1,0 +1,44 @@
+package inl2;
+
+import se.lth.cs.window.SimpleWindow;
+
+public class MandelbrotCalc {
+    Complex C;
+    int max_iter = 200;
+    Complex z = new Complex(0, 0);
+    int k = 0;
+    boolean man;
+  
+    public MandelbrotCalc(Complex C, SimpleWindow w){
+        w.moveTo(w.getWidth()/2, w.getHeight()/2);
+        this.C = C;
+        /*z.setIm(0);
+        z.setRe(0);*/
+        while (k < max_iter && z.getIm() <= 2 && z.getRe() <= 2) {
+            k += 1;
+            z.mul(z);
+            /*z.setRe((z.getRe() * z.getRe()) - ((z.getIm()*z.getIm())));
+            z.setIm((z.getIm() * z.getIm()) + ((z.getRe()*z.getRe())));*/
+            z.add(C);
+            /*z.setRe(z.getRe() + C.getRe());
+            z.setIm(z.getIm() + C.getIm());*/
+            System.out.println(z.getRe());
+            System.out.println(z.getIm());
+            System.out.println("x = " + (int) (w.getWidth()/2 + z.getRe()*100));
+            System.out.println("y = " + (int) ((w.getHeight()/2 - z.getIm()*100)));
+            //w.waitForMouseClick();
+            /*w.lineTo((int) ((w.getWidth()/2 + z.getRe()*100)),
+                     (int) ((w.getHeight()/2 - z.getIm()*100)));
+            System.out.println("---");*/
+        }
+        if (k < max_iter) {
+            man = false;
+        } else {
+            man = true;
+        }
+    }
+  
+    public boolean man() {
+        return man;
+    }
+}
