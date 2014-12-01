@@ -1,0 +1,34 @@
+import se.lth.cs.ptdc.fractal.MandelbrotGUI;
+
+public class Mandelbrot {
+	public static void main(String[] args) {
+		MandelbrotGUI gui = new MandelbrotGUI();
+		Render r = new Render(gui);
+
+		while (true) {
+			switch (gui.getCommand()) {
+			case MandelbrotGUI.RENDER:
+
+				r.render(gui);
+
+				break;
+			case MandelbrotGUI.RESET:
+				gui.clearPlane();
+				
+				// axlar återställs //
+				
+				break;
+			case MandelbrotGUI.QUIT:
+				System.exit(0);
+			case MandelbrotGUI.ZOOM:
+				
+//				if (Planet är clearat) {
+				gui.clearPlane();
+				r.render(gui);
+//				}
+				
+				break;
+			}
+		}
+	}
+}
