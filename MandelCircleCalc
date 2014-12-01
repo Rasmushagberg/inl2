@@ -34,8 +34,6 @@ public class MandelCircleCalc {
 
 	public void CircleCalc() {
 		gui.disableInput();
-		// int height = gui.getHeight();
-		// int width = gui.getWidth();
 		int pixelsize = 1;
 
 		switch (gui.getResolution()) {
@@ -61,9 +59,6 @@ public class MandelCircleCalc {
 		int colorheight = (height / pixelsize) - 1;
 		int colorwidth = (width / pixelsize) - 1;
 		Color[][] ColorMatrix = new Color[colorheight][colorwidth];
-
-		System.out.println(colorheight);
-		System.out.println(colorwidth);
 
 		for (int i = 0; i < colorheight; i++) {
 			// System.out.println(i);
