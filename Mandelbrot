@@ -1,0 +1,31 @@
+package inl2;
+
+import se.lth.cs.ptdc.fractal.MandelbrotGUI;
+
+public class Mandelbrot {
+	public static void main(String[] args) {
+		MandelbrotGUI gui = new MandelbrotGUI();
+		MandelCircleCalc circle = new MandelCircleCalc(gui);
+		boolean hasimg = false;
+		while (true) {
+			switch (gui.getCommand()) {
+			case MandelbrotGUI.RENDER:
+				circle.CircleCalc();
+				hasimg = true;
+				break;
+			case MandelbrotGUI.RESET:
+				gui.clearPlane();
+				hasimg = false;
+				break;
+			case MandelbrotGUI.QUIT:
+				System.exit(0);
+			case MandelbrotGUI.ZOOM:
+				if (hasimg) {
+					circle.CircleCalc();
+				}
+				System.out.println("Zoom");
+				break;
+			}
+		}
+	}
+}
