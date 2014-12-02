@@ -1,0 +1,45 @@
+package inl2;
+
+public class Complex {
+	private double re;
+	private double im;
+
+	public Complex(double re, double im) {
+		this.re = re;
+		this.im = im;
+	}
+
+	public double getRe() {
+		return re;
+	}
+
+	public void setRe(double newRe) {
+		this.re = newRe;
+	}
+
+	public double getIm() {
+		return im;
+	}
+
+	public void setIm(double newIm) {
+		this.im = newIm;
+	}
+
+	public double getAbs2() {
+		return Math.pow(re, 2) + Math.pow(im, 2);
+	}
+
+	public void add(Complex C) {
+		this.setRe(re + C.getRe());
+		this.setIm(im + C.getIm());
+	}
+
+	public void mul(Complex C) {
+		double oldre = this.getRe();
+		double oldim = this.getIm();
+		double newRe = (re * C.getRe()) - (im * C.getIm());
+		double newIm = (oldre * C.getIm()) + (oldim * C.getRe());
+		this.setRe(newRe);
+		this.setIm(newIm);
+	}
+}
