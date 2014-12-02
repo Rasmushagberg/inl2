@@ -1,0 +1,51 @@
+package inl2;
+
+import se.lth.cs.ptdc.fractal.MandelbrotGUI;
+
+public class Mandelbrot {
+	public static void main(String[] args) {
+		int num = 0;
+		MandelbrotGUI gui = new MandelbrotGUI();
+		Generator generator = new Generator(gui);
+		boolean hasimg = false;
+		while (true) {
+			switch (gui.getCommand()) {
+			case MandelbrotGUI.RENDER:
+				num = 0;
+				for (int i = 0; i < gui.getExtraText().length(); i++) {
+					num *= 10;
+					num += gui.getExtraText().charAt(i) - '0';
+				}
+				if (num != 0) {
+					generator.setMax_Iter(num);
+				}
+				generator.render(gui);
+				hasimg = true;
+				break;
+			case MandelbrotGUI.RESET:
+				generator.setMax_Iter(200);
+				gui.resetPlane();
+				gui.clearPlane();
+				hasimg = false;
+				break;
+			case MandelbrotGUI.QUIT:
+				System.exit(0);
+			case MandelbrotGUI.ZOOM:
+				if (hasimg) {
+					num = 0;
+					for (int i = 0; i < gui.getExtraText().length(); i++) {
+						num *= 10;
+						num += gui.getExtraText().charAt(i) - '0';
+					}
+					if (num != 0) {
+						generator.setMax_Iter(num);
+					}
+					generator.render(gui);
+				} else {
+					gui.resetPlane();
+				}
+				break;
+			}
+		}
+	}
+}
