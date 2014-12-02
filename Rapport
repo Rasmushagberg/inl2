@@ -1,0 +1,38 @@
+Bakgrund
+
+Mandelbrotsmängden är en matematisk delmängd av de komplexa talen. Mängden bildar en fraktal, dvs. det skapas ett mönster som upprepas i mindre och mindre skala i all oändlighet. Med hjälp av följande formel kan man bestämma om ett komplext tal ingår i Mandelbrotsmängden.
+
+
+
+
+Självklart kan vi inte upprepa detta i all oändlighet utan vi väljer en gräns på iterationerna varefter vi antar att talet i fråga är en del av Mandelbrotmängden om talet fortfarande inte divergerat. Ju fler iterationer desto exaktare bild får du, men det tar också längre tid att rita upp.
+
+Vi har skrivit ett program för att beräkna vilka tal i ett tvådimensionellt talplan som ingår i denna mängd och sedan ritat ut dessa punkter i ett fönster.
+
+När du först öppnar fönstret kan du välja att rita upp mängden svartvitt eller med färg, vilken upplösning du vill ha samt ett ”extra” fält där du kan fylla i hur många iterationer du vill göra. Om fältet lämnas tomt görs 200 iterationer. Om du väljer svartvitt ritas de punkter som är en del av Mandelbrotsmängden upp med svart färg, övriga punkter med vit. Om du väljer att rita med färg ritas de punkter som kräver väldigt många iterationer för att avgöra om de är en del av mängden med en färg som går från röd mot svart. Dvs. de tal som snabbt divergerar ritas upp som svarta, medan de som kräver många iterationer för att avgöra om de är en del av mängden för en rödare färg. De som inte divergerar alls ritas helt röda.
+
+
+Modell
+
+Klasser:
+MandelbrotGUI – Det grafiska gränssnitt där bilden ritas upp. Här kan du välja om du vill rita i färg eller svartvitt, vilken upplösning du vill använda samt hur många iterationer du vill göra. Du kan även zooma in på ett område i fönstret genom att markera detta med muspekaren. Bilden ritas när du trycker på ”Render”, ”Reset” tömmer fönstret samt återställer x- och y-axlarna och ”Quit” stänger programmet. Du kan även spara en bild av det som ritats upp i fönstret.
+Complex – Beskriver komplexa tal och räkneoperationerna addition, multiplikation och kan även ta fram kvadraten av absolutbeloppet av ett komplext tal.
+Generator – Skapar en matris med komplexa tal och en matris med koordinater var bilden kommer ritas. Även en matris med de olika nyanserna av rött skapas. Den komplexa matrisen jämförs med matrisen med koordinater för att se om punkten i koordinaten i fråga är en del av Mandelbrotsmängden. Om du har valt att rita med färg så kollar Generator hur många iterationer som krävs för att bestämma att talet i fråga inte är en del av Mandelbrotsmängden och ger det en nyans av rött beroende på det där väldigt rött är då det krävs många iterationer för att bestämma att talet inte är en del av mängden och helt svart är då det krävs väldigt få.
+Mandelbrot – Main-metoden som skapar och anropar övriga klasser. Hanterar signalerna från gränssnittet och berättar för generator hur dessa skall hanteras.
+
+Inmatning från användaren hanteras genom att loopa en switch där man lyssnar efter vilka knappar som används. Beroende på detta skickas signaler vidare till Generatorn som utför lämpliga operationer. 
+
+Complex-klassen är helt oberoende av övriga klasser och går att återanvända till valfritt program. Övriga klasser beror dock i stort på varandra och är därför svåra att återanvända utan att skriva om till viss del.
+
+
+Utökningar
+
+Man kan ändra antalet iterationer som utförs  innan talet bedöms vara en del av mandelbrotmängden genom att skriva in ett tal i ”extra”-fältet. Om fältet lämnas tomt görs 200 iterationer.
+
+
+Programlistor
+
+Klasserna finns i filer med samma namn som klasserna. T.ex finns klassen Generator i filen Generator.java. Samtliga klasser finns i samma katalog som huvudprogrammet.
+
+
+Massa klasser.
