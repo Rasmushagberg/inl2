@@ -1,55 +1,53 @@
 package inl2;
 
-import se.lth.cs.ptdc.fractal.MandelbrotGUI;
+public class Complex {
+	private double re; // Realdelen av ett komplext tal.
+	private double im; // Imaginärdelen av ett komplext tal.
 
-public class Mandelbrot {
-	public static void main(String[] args) {
-		int num = 0;
-		MandelbrotGUI gui = new MandelbrotGUI();
-		Generator generator = new Generator(gui);
-		boolean hasimg = false;
-		while (true) {
-			switch (gui.getCommand()) {
-			case MandelbrotGUI.RENDER:
-				num = 0;
-				for (int i = 0; i < gui.getExtraText().length(); i++) {
-					num *= 10;
-					num += gui.getExtraText().charAt(i) - '0';
-				}
-				if (num != 0) {
-					generator.setMax_Iter(num);
-				} else {
-					generator.setMax_Iter(200);
-				}
-				generator.render(gui);
-				hasimg = true;
-				break;
-			case MandelbrotGUI.RESET:
-				generator.setMax_Iter(200);
-				gui.resetPlane();
-				gui.clearPlane();
-				hasimg = false;
-				break;
-			case MandelbrotGUI.QUIT:
-				System.exit(0);
-			case MandelbrotGUI.ZOOM:
-				if (hasimg) {
-					num = 0;
-					for (int i = 0; i < gui.getExtraText().length(); i++) {
-						num *= 10;
-						num += gui.getExtraText().charAt(i) - '0';
-					}
-					if (num != 0) {
-						generator.setMax_Iter(num);
-					} else {
-						generator.setMax_Iter(200);
-					}
-					generator.render(gui);
-				} else {
-					gui.resetPlane();
-				}
-				break;
-			}
-		}
+	/** Skapar ett komplext tal med realdelen re och imaginärdelen im. */
+	public Complex(double re, double im) {
+		this.re = re;
+		this.im = im;
+	}
+
+	/** Returner det komplexa talets realdel. */
+	public double getRe() {
+		return re;
+	}
+
+	/** Ändrar det komplexa talets realdel till newRe */
+	public void setRe(double newRe) {
+		this.re = newRe;
+	}
+
+	/** Returner det komplexa talets imaginärdel. */
+	public double getIm() {
+		return im;
+	}
+
+	/** Ändrar det komplexa talets imaginärdel till newIm */
+	public void setIm(double newIm) {
+		this.im = newIm;
+	}
+
+	/** Returnerar kvadraten av det komplexa talets absolutbelopp */
+	public double getAbs2() {
+		return Math.pow(Math.abs(re), 2) + Math.pow(Math.abs(im), 2);
+	}
+
+	/** Adderar det komplexa talet C till det ursprungliga komplexa talet. */
+	public void add(Complex C) {
+		this.setRe(re + C.getRe());
+		this.setIm(im + C.getIm());
+	}
+
+	/** Multiplicerar det komplexa talet C med det ursprungliga komplexa talet. */
+	public void mul(Complex C) {
+		double oldre = this.getRe();
+		double oldim = this.getIm();
+		double newRe = (re * C.getRe()) - (im * C.getIm());
+		double newIm = (oldre * C.getIm()) + (oldim * C.getRe());
+		this.setRe(newRe);
+		this.setIm(newIm);
 	}
 }
