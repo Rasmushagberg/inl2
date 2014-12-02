@@ -1,0 +1,106 @@
+package inl2;
+
+import java.awt.Color;
+import se.lth.cs.ptdc.fractal.MandelbrotGUI;
+
+public class Generator {
+	private static double max_iter = 200;
+	Color[] col;
+
+	public Generator(MandelbrotGUI gui) {
+		Color[] col = new Color[256];
+		for (int k = 0; k < col.length; k++) {
+			col[k] = new Color(k, 0, 0);
+			this.col = col;
+		}
+	}
+
+	private Complex[][] mesh(double minRe, double maxRe, double minIm,
+			double maxIm, int width, int height) {
+		Complex[][] mesh = new Complex[height][width];
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				mesh[i][j] = new Complex(
+						(minRe + ((maxRe - minRe) / (width - 1)) * j),
+						(maxIm - ((maxIm - minIm) / (height - 1) * i)));
+			}
+		}
+		return mesh;
+	}
+
+	public void render(MandelbrotGUI gui) {
+		gui.disableInput();
+		int pixelsize = 1;
+
+		switch (gui.getResolution()) {
+		case MandelbrotGUI.RESOLUTION_VERY_HIGH:
+			pixelsize = 1;
+			break;
+		case MandelbrotGUI.RESOLUTION_HIGH:
+			pixelsize = 3;
+			break;
+		case MandelbrotGUI.RESOLUTION_MEDIUM:
+			pixelsize = 5;
+			break;
+		case MandelbrotGUI.RESOLUTION_LOW:
+			pixelsize = 7;
+			break;
+		case MandelbrotGUI.RESOLUTION_VERY_LOW:
+			pixelsize = 9;
+			break;
+		}
+
+		int height = gui.getHeight();
+		int width = gui.getWidth();
+
+		int colorheight = (height / pixelsize);
+		int colorwidth = (width / pixelsize);
+		Color[][] picture = new Color[colorheight][colorwidth];
+
+		Complex[][] mesh = this.mesh(gui.getMinimumReal(),
+				gui.getMaximumReal(), gui.getMinimumImag(),
+				gui.getMaximumImag(), gui.getWidth(), gui.getHeight());
+
+		for (int i = 0; i < colorheight; i++) {
+			for (int j = 0; j < colorwidth; j++) {
+				int icomplex = i * pixelsize + pixelsize / 2;
+				int jcomplex = j * pixelsize + pixelsize / 2;
+				Complex c = mesh[icomplex][jcomplex];
+				Complex z = new Complex(0, 0);
+				int iterCounter = 0;
+
+				while (iterCounter < max_iter && z.getAbs2() <= 4) {
+					iterCounter++;
+					z.mul(z);
+					z.add(c);
+				}
+
+				switch (gui.getMode()) {
+				case MandelbrotGUI.MODE_BW:
+					if (z.getAbs2() <= 4) {
+						picture[i][j] = new Color(0, 0, 0);
+					} else {
+						picture[i][j] = new Color(255, 255, 255);
+					}
+					break;
+				case MandelbrotGUI.MODE_COLOR:
+					if (z.getAbs2() <= 4) {
+						picture[i][j] = col[255];
+					} else {
+						picture[i][j] = col[(int) Math.round(((255/max_iter) * iterCounter))];
+					}
+				}
+			}
+		}
+		gui.putData(picture, pixelsize, pixelsize);
+		gui.enableInput();
+	}
+
+	public double getMax_Iter() {
+		return max_iter;
+	}
+
+	public void setMax_Iter(int iter) {
+		max_iter = iter;
+	}
+}
