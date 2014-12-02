@@ -4,9 +4,15 @@ import java.awt.Color;
 import se.lth.cs.ptdc.fractal.MandelbrotGUI;
 
 public class Generator {
-	private static double max_iter = 200;
-	Color[] col;
+	private static double max_iter = 200; // Mängden iterationer att utföra
+											// innan talet antas vara en del av
+											// Mandelbrotmängden.
+	Color[] col; // Vektor med färger.
 
+	/**
+	 * Skapar en generator som kommer rita i gränssnittet gui samt fyller
+	 * färgvektorn med alla nyanser av rött.
+	 */
 	public Generator(MandelbrotGUI gui) {
 		Color[] col = new Color[256];
 		for (int k = 0; k < col.length; k++) {
@@ -15,6 +21,10 @@ public class Generator {
 		}
 	}
 
+	/**
+	 * Skapar en matris och fyller den med alla komplexa tal som kommer synas i
+	 * gränssnittet
+	 */
 	private Complex[][] mesh(double minRe, double maxRe, double minIm,
 			double maxIm, int width, int height) {
 		Complex[][] mesh = new Complex[height][width];
@@ -28,6 +38,12 @@ public class Generator {
 		return mesh;
 	}
 
+	/**
+	 * Skapar en matris med en punkt vars storlekt beror på vald upplösning och
+	 * fyller den med motsvarande tal från matrisen med komplexa tal. Ritar
+	 * sedan upp matrisen i gränssnittet med eller utan färg beroende på valt
+	 * läge.
+	 */
 	public void render(MandelbrotGUI gui) {
 		gui.disableInput();
 		int pixelsize = 1;
@@ -87,7 +103,8 @@ public class Generator {
 					if (z.getAbs2() <= 4) {
 						picture[i][j] = col[255];
 					} else {
-						picture[i][j] = col[(int) Math.round(((255/max_iter) * iterCounter))];
+						picture[i][j] = col[(int) Math
+								.round(((255 / max_iter) * iterCounter))];
 					}
 				}
 			}
@@ -96,10 +113,12 @@ public class Generator {
 		gui.enableInput();
 	}
 
+	/** Returnerar den maximala mängden iterationer. */
 	public double getMax_Iter() {
 		return max_iter;
 	}
 
+	/** Sätter den maximala mängden iterationer till iter */
 	public void setMax_Iter(int iter) {
 		max_iter = iter;
 	}
