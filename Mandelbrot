@@ -18,6 +18,8 @@ public class Mandelbrot {
 				}
 				if (num != 0) {
 					generator.setMax_Iter(num);
+				} else {
+					generator.setMax_Iter(200);
 				}
 				generator.render(gui);
 				hasimg = true;
@@ -39,6 +41,8 @@ public class Mandelbrot {
 					}
 					if (num != 0) {
 						generator.setMax_Iter(num);
+					} else {
+						generator.setMax_Iter(200);
 					}
 					generator.render(gui);
 				} else {
